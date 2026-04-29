@@ -1,0 +1,2557 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{hanging}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{listings}
+\usepackage{mdframed}
+\usepackage{pifont}
+%\usepackage{lipsum} %remove later
+\doublespacing
+%\setlength\parindent{28 pt}
+\geometry{letterpaper, margin=1in}
+
+% ++++ Color definitions ++++
+\definecolor{highcol}{HTML}{C00000}
+\definecolor{medcol}{HTML}{BF8F00}
+\definecolor{lowcol}{HTML}{375623}
+\definecolor{immediatecol}{HTML}{C00000}
+\definecolor{shortcol}{HTML}{E26B0A}
+\definecolor{longcol}{HTML}{375623}
+\definecolor{headercol}{HTML}{1F4E79}
+\definecolor{lightyellow}{HTML}{FFF2CC}
+\definecolor{lightgreen}{HTML}{EBF1DD}
+\definecolor{lightred}{HTML}{FFD7D7}
+\definecolor{lightgray}{HTML}{EDEDED}
+\definecolor{codebg}{HTML}{F5F5F5}
+\definecolor{codeframe}{HTML}{CCCCCC}
+\definecolor{impactbg}{HTML}{FFF2CC}
+\definecolor{impactframe}{HTML}{BF8F00}
+\definecolor{verifybg}{HTML}{EBF1DD}
+\definecolor{verifyframe}{HTML}{375623}
+\definecolor{warnbg}{HTML}{FFD7D7}
+\definecolor{warnframe}{HTML}{C00000}
+\definecolor{notebg}{HTML}{DDEEFF}
+\definecolor{noteframe}{HTML}{1F4E79}
+\definecolor{checkbg}{HTML}{F2F2F2}
+\definecolor{checkframe}{HTML}{595959}
+\definecolor{acccol}{HTML}{1F4E79}
+\definecolor{transcol}{HTML}{375623}
+\definecolor{integcol}{HTML}{7030A0}
+\definecolor{authcol}{HTML}{C00000}
+\definecolor{immediatecol}{HTML}{C00000}
+\definecolor{shortcol}{HTML}{E26B0A}
+\definecolor{longcol}{HTML}{375623}
+\definecolor{totalrowcol}{HTML}{D9E1F2}
+\definecolor{subtotalcol}{HTML}{F2F2F2}
+ 
+
+% ++++ Convenience macros ++++
+% Severity badge: \sevbadge{colour}{label}
+\newcommand{\sevbadge}[2]{%
+  \colorbox{#1}{\color{white}\textbf{\small #2}}%
+}
+ 
+% Timeframe badge
+\newcommand{\tfbadge}[2]{%
+  \colorbox{#1}{\color{white}\textbf{\small #2}}%
+}
+ 
+% Header row cell (white text on dark blue)
+\newcommand{\hcell}[1]{%
+  \cellcolor{headercol}\color{white}\textbf{#1}%
+}
+
+\newcommand{\sectionrule}{%
+  \vspace{4pt}\noindent\textcolor{headercol}{\rule{\linewidth}{0.8pt}}\vspace{4pt}%
+}
+
+\newcommand{\hipbadge}[2]{%
+  \colorbox{#1}{\color{white}\textbf{\small #2}}%
+}
+
+% Checkbox item
+\newcommand{\cbox}{\ding{113}\;}
+
+% ── Listings style (terminal / config blocks) ────────────────────────────
+\lstdefinestyle{terminal}{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  breakatwhitespace=false,
+  frame=single,
+  rulecolor=\color{codeframe},
+  xleftmargin=8pt,
+  xrightmargin=8pt,
+  aboveskip=6pt,
+  belowskip=6pt,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+}
+ 
+% ── Framed boxes ─────────────────────────────────────────────────────────
+\newmdenv[
+  backgroundcolor=impactbg,
+  linecolor=impactframe,
+  linewidth=1.2pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=6pt,
+  skipbelow=6pt,
+]{impactbox}
+ 
+\newmdenv[
+  backgroundcolor=verifybg,
+  linecolor=verifyframe,
+  linewidth=1.2pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=6pt,
+  skipbelow=6pt,
+]{verifybox}
+ 
+\newmdenv[
+  backgroundcolor=warnbg,
+  linecolor=warnframe,
+  linewidth=1.2pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=6pt,
+  skipbelow=6pt,
+]{warnbox}
+
+\newmdenv[
+  backgroundcolor=notebg,
+  linecolor=noteframe,
+  linewidth=1.2pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=6pt,
+  skipbelow=6pt,
+]{notebox}
+
+\newmdenv[
+  backgroundcolor=checkbg,
+  linecolor=checkframe,
+  linewidth=1.2pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=6pt,
+  skipbelow=6pt,
+]{checklistbox}
+
+
+
+% ++++ Fancy Settings (for header) ++++
+\pagestyle{plain}
+\fancypagestyle{main}{
+	\fancyhf{}
+	\lhead{Remediation Plan}
+	\rhead{\leftmark}
+	\cfoot{\thepage}
+	\renewcommand{\headrulewidth}{0.4pt}
+}
+
+% Column widths (tweak the numbers if you want)
+\newcommand{\colNum}{0.06\linewidth}   % column 1 (1–10)
+\newcommand{\colSmall}{0.16\linewidth} % columns 2,3,5
+\newcommand{\colBig}{0.48\linewidth}   % column 4 (3x colSmall)
+
+% ++++ Begin Doc ++++
+
+\begin{document}
+
+% ++++ Cover Page ++++
+
+\begin{titlepage}
+\centering
+\vfill
+
+% ++Logo
+\includegraphics[width=0.35\textwidth]{images/logo.png}
+
+\vspace{1.5cm}
+
+% ++Title
+\LARGE{\textbf{Remediation Plan}}\\
+\vspace{0.3cm}
+\large{\textbf{Keith Schoen}}\\
+\vspace{0.3cm}
+\large{\textbf{CSEC3755-001}}\\
+\vspace{0.3cm}
+\large{\textbf{Dr. Daniel Pittman}}\\
+\vspace{0.3cm}
+\large{\textbf{28 April 2026}}\\
+\vspace{0.3cm}
+
+\vfill
+\end{titlepage}
+
+% ++++ ToC ++++
+
+\pagenumbering{gobble} %hide page numbers for cover and ToC
+\tableofcontents
+\clearpage
+
+% ++++ Begin Report ++++
+
+\pagenumbering{arabic} %page one starts here
+\setcounter{page}{1}
+\pagestyle{main} %turn on fancy
+
+\section{Prioritized Remediation Roadmap}
+
+\subsection{Findings Ranked by Risk}
+ 
+The table below presents all findings in descending composite risk order.
+Composite scores are derived from a weighted formula incorporating
+exploitability, impact, asset value, and HIPAA regulatory exposure:
+ 
+\[
+  \text{Composite} = \text{Exploitability} \times 0.25
+                   + \text{Impact} \times 0.30
+                   + \text{Asset Value} \times 0.25
+                   + \text{HIPAA} \times 0.20
+\]
+ 
+Firewall configuration gaps (FW1--FW4) are included as unscored findings given
+their role as a network-layer force multiplier on all host-level
+vulnerabilities.
+ 
+\bigskip
+ 
+\noindent
+\begin{longtable}{>{\bfseries}p{0.8cm} p{2.0cm} p{5.2cm} p{1.3cm} p{1.5cm} p{2.4cm}}
+  \rowcolor{headercol}
+  \hcell{ID} & \hcell{Severity} & \hcell{Finding} &
+  \hcell{CVSS} & \hcell{Composite} & \hcell{System(s)} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \hcell{ID} & \hcell{Severity} & \hcell{Finding} &
+  \hcell{CVSS} & \hcell{Composite} & \hcell{System(s)} \\
+  \endhead
+  \midrule
+  \hline
+  F1 &
+  \sevbadge{medcol}{MEDIUM} &
+  Anonymous FTP login --- confidential directory exposed &
+  \cellcolor{lightyellow}6.4 &
+  \cellcolor{lightred}\textbf{5.00} &
+  Ubuntu (.102) \\[4pt]
+ \hline
+  F2 &
+  \sevbadge{medcol}{MEDIUM} &
+  Cleartext HTTP credential transmission &
+  \cellcolor{lightyellow}4.8 &
+  \cellcolor{lightred}\textbf{4.45} &
+  Ubuntu (.102) \\[4pt]
+ \hline
+  F3 &
+  \sevbadge{medcol}{MEDIUM} &
+  FTP authenticated sessions over cleartext &
+  \cellcolor{lightyellow}4.8 &
+  3.95 &
+  Ubuntu (.102) \\[4pt]
+ \hline
+  FW1 &
+  \sevbadge{highcol}{HIGH{*}} &
+  Firewall default ACCEPT policy on all chains &
+  \cellcolor{lightgray}N/A &
+  \cellcolor{lightgray}N/A &
+  Router (.106) \\[4pt]
+ \hline
+  FW2 &
+  \sevbadge{highcol}{HIGH{*}} &
+  Unrestricted inter-zone forwarding (all ports/protocols) &
+  \cellcolor{lightgray}N/A &
+  \cellcolor{lightgray}N/A &
+  Router (.106) \\[4pt]
+ \hline
+  FW3 &
+  \sevbadge{medcol}{MEDIUM} &
+  No stateful inspection --- no established/related tracking &
+  \cellcolor{lightgray}N/A &
+  \cellcolor{lightgray}N/A &
+  Router (.106) \\[4pt]
+ \hline
+  FW4 &
+  \sevbadge{medcol}{MEDIUM} &
+  Management services (SSH, Webmin) exposed on all interfaces &
+  \cellcolor{lightgray}N/A &
+  \cellcolor{lightgray}N/A &
+  Router (.106) \\[4pt]
+ \hline
+  F4 &
+  \sevbadge{medcol}{MEDIUM} &
+  Deprecated TLS 1.0/1.1 on RDP service &
+  \cellcolor{lightyellow}4.3 &
+  3.75 &
+  Windows (.105) \\[4pt]
+ \hline
+  F5 &
+  \sevbadge{medcol}{MEDIUM} &
+  DCE/RPC endpoint enumeration --- internal service map exposed &
+  \cellcolor{lightyellow}5.0 &
+  3.45 &
+  Windows (.105) \\[4pt]
+ \hline
+  F6 &
+  \sevbadge{lowcol}{LOW} &
+  Weak SSH MAC algorithms (umac-64) on both servers &
+  \cellcolor{lightgreen}2.6 &
+  2.50 &
+  Ubuntu, Windows \\[4pt]
+ \hline
+  F7 &
+  \sevbadge{lowcol}{LOW} &
+  TCP timestamp information disclosure &
+  \cellcolor{lightgreen}2.6 &
+  1.95 &
+  Ubuntu, Windows \\[4pt]
+ \hline
+  F8 &
+  \sevbadge{lowcol}{LOW} &
+  ICMP timestamp reply enabled &
+  \cellcolor{lightgreen}2.1 &
+  1.95 &
+  Ubuntu (.102) \\[4pt]
+  \bottomrule
+\end{longtable}
+ 
+\smallskip
+\textit{* FW1 and FW2 are unscored under the D1 composite model but are treated
+as High-equivalent given their role as network-layer prerequisites. With default
+ACCEPT and unrestricted forwarding in place, every host-level vulnerability is
+reachable without constraint.}
+ 
+% ── 1.2 ─────────────────────────────────────────────────────────────────────
+\subsection{Remediation Order and Dependencies}
+ 
+Findings are grouped into three remediation windows based on risk severity and
+logical dependency. Dependencies are noted where the remediation of one finding
+is a prerequisite for, or is most efficiently addressed alongside, another.
+ 
+\subsubsection*{Immediate Window (0--7 Days)}
+ 
+The firewall hardening items (FW1--FW4) must be addressed first, as the open
+forwarding posture amplifies every host-level finding. With unrestricted
+inter-zone access, vulnerabilities such as anonymous FTP and cleartext
+credentials are reachable by any device on the network. Closing the firewall
+gaps does not eliminate the host-level risks, but it reduces the attack surface
+while host remediations are scheduled.
+ 
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{FW1 / FW2} --- Set default DROP policy on INPUT and FORWARD
+    chains; implement explicit allow rules by port and protocol. These two items
+    must be addressed together in a single change window, as partial
+    implementation may break legitimate traffic.
+ 
+  \item \textbf{FW3} --- Implement stateful connection tracking
+    (ESTABLISHED, RELATED) on the FORWARD chain. Depends on FW1/FW2 being in
+    place first, as stateful rules only function correctly when the default
+    policy is DROP.
+ 
+  \item \textbf{FW4} --- Restrict SSH and Webmin to the management interface
+    (eth0) only. Recommended to address in the same session as FW1--FW3 to
+    avoid being locked out mid-change.
+ 
+  \item \textbf{F1} --- Disable anonymous FTP login on the Ubuntu server. No
+    technical dependencies, but should be addressed in the same window as
+    FW1--FW4 given the active data exposure risk. Review the contents of the
+    \texttt{confidential} directory immediately for potential HIPAA breach
+    assessment.
+ 
+  \item \textbf{F2} --- Enforce HTTPS on the Ubuntu web application and replace
+    the Werkzeug development server with a production WSGI stack. No
+    dependencies, but bundles naturally with F1 as both are Ubuntu-side
+    remediations.
+ 
+  \item \textbf{F3} --- Enforce AUTH TLS on the FTP service, or migrate file
+    transfer to SFTP. Dependent on F1: removing anonymous access without
+    enforcing encrypted auth for authenticated sessions leaves credential
+    exposure in place. Both must be closed to fully remediate the FTP service.
+\end{itemize}
+ 
+\subsubsection*{Short-Term Window (8--30 Days)}
+ 
+The following two findings affect the Windows server and are best addressed in a
+single dedicated Windows hardening pass. No dependencies exist between F4 and
+F5, but scheduling them together minimizes maintenance windows and allows for
+coordinated testing.
+ 
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{F4} --- Disable TLS 1.0 and 1.1 on the RDP service via registry
+    or Group Policy. Also evaluate whether RDP requires broad network access or
+    can be restricted to specific management IP addresses.
+ 
+  \item \textbf{F5} --- Restrict port 135 (RPC endpoint mapper) to trusted
+    management addresses via firewall rules. Evaluate whether the Print Spooler
+    service is required on this host; if not, disable it to eliminate a
+    well-documented attack surface.
+\end{itemize}
+ 
+\subsubsection*{Long-Term Window (31--90 Days)}
+ 
+The following items carry low standalone risk and can be addressed
+opportunistically during scheduled maintenance cycles. No inter-dependencies
+exist between F6, F7, and F8.
+ 
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{F6} --- Remove weak SSH MAC algorithms (\texttt{umac-64-etm},
+    \texttt{umac-64}) from the SSH configuration on both the Ubuntu and Windows
+    servers. A five-minute configuration change on each host.
+ 
+  \item \textbf{F7} --- Suppress TCP timestamp responses on both Ubuntu and
+    Windows to reduce uptime-based reconnaissance data available to an attacker.
+ 
+  \item \textbf{F8} --- Block ICMP Type 13 (timestamp) replies at the firewall
+    or on the Ubuntu host directly. Lowest-priority finding in the assessment.
+\end{itemize}
+ 
+% ── 1.3 ─────────────────────────────────────────────────────────────────────
+\subsection{Timeframe Summary}
+ 
+\bigskip
+ 
+\noindent
+\begin{longtable}{>{\bfseries}p{0.8cm} p{4.2cm} p{2.4cm} p{1.8cm} p{3.0cm}}
+  \rowcolor{headercol}
+  \hcell{ID} & \hcell{Finding} & \hcell{Timeframe} &
+  \hcell{Depends On} & \hcell{System} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \hcell{ID} & \hcell{Finding} & \hcell{Timeframe} &
+  \hcell{Depends On} & \hcell{System} \\
+  \endhead
+  \midrule
+ 
+  FW1 & Default ACCEPT policy --- all chains &
+    \tfbadge{immediatecol}{Immediate} & FW2 (pair) & Router (192.168.56.106) \\[4pt]
+ \hline
+  FW2 & Unrestricted inter-zone forwarding &
+    \tfbadge{immediatecol}{Immediate} & FW1 (pair) & Router (192.168.56.106) \\[4pt]
+ \hline
+  FW3 & No stateful connection tracking &
+    \tfbadge{immediatecol}{Immediate} & FW1, FW2 & Router (192.168.56.106) \\[4pt]
+ \hline
+  FW4 & Management services on all interfaces &
+    \tfbadge{immediatecol}{Immediate} & FW1--FW3 & Router (192.168.56.106) \\[4pt]
+ \hline
+  F1 & Anonymous FTP --- confidential directory exposed &
+    \tfbadge{immediatecol}{Immediate} & None & Ubuntu (192.168.56.102) \\[4pt]
+ \hline
+  F2 & Cleartext HTTP credential transmission &
+    \tfbadge{immediatecol}{Immediate} & None & Ubuntu (192.168.56.102) \\[4pt]
+ \hline
+  F3 & FTP authenticated sessions over cleartext &
+    \tfbadge{immediatecol}{Immediate} & F1 & Ubuntu (192.168.56.102) \\[4pt]
+ \hline
+  F4 & Deprecated TLS 1.0/1.1 on RDP &
+    \tfbadge{shortcol}{Short-Term} & None & Windows (192.168.56.105) \\[4pt]
+ \hline
+  F5 & DCE/RPC endpoint enumeration &
+    \tfbadge{shortcol}{Short-Term} & None & Windows (192.168.56.105) \\[4pt]
+ \hline
+  F6 & Weak SSH MAC algorithms &
+    \tfbadge{longcol}{Long-Term} & None & Ubuntu, Windows \\[4pt]
+ \hline
+  F7 & TCP timestamp disclosure &
+    \tfbadge{longcol}{Long-Term} & None & Ubuntu, Windows \\[4pt]
+ \hline
+  F8 & ICMP timestamp reply &
+    \tfbadge{longcol}{Long-Term} & None & Ubuntu (192.168.56.102) \\[4pt]
+ 
+  \bottomrule
+\end{longtable}
+\newpage
+\section{Remediation Details}
+\subsection{Firewall Hardening (FW1--FW4)}
+\sectionrule
+ 
+\noindent\tfbadge{immediatecol}{Immediate}
+\quad\textbf{System:} Router (192.168.56.106)
+\quad\textbf{Service Impact:} Brief --- seconds of dropped traffic during flush
+ 
+\bigskip
+\noindent\textbf{Background}
+ 
+The router currently has a default ACCEPT policy on all three chains with no
+stateful inspection and unrestricted forwarding between zones. Management
+services (SSH on port 22, Webmin on port 10000) are bound to all interfaces.
+The following steps implement a default-deny posture with explicit allow rules
+matching the proposed ruleset from D2.
+ 
+\bigskip
+\noindent\textbf{Step 1 --- Install persistence package}
+ 
+Before modifying any rules, install \texttt{iptables-persistent} so the
+ruleset survives reboots. Answer \texttt{Yes} to both prompts to save current
+rules (even though we are about to replace them).
+ 
+\begin{lstlisting}[style=terminal]
+apt-get update && apt-get install -y iptables-persistent
+\end{lstlisting}
+ 
+\newpage
+\noindent\textbf{Step 2 --- Flush existing rules and set default DROP}
+ 
+\begin{lstlisting}[style=terminal]
+# Flush all existing rules
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+ 
+# Set default DROP on INPUT and FORWARD; OUTPUT remains ACCEPT
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+\end{lstlisting}
+ 
+\begin{warnbox}
+\textbf{Warning:} After setting INPUT to DROP, new SSH sessions from untrusted
+interfaces will be blocked immediately. Ensure you are connected via eth0
+(management side) before proceeding, or have console access as a fallback.
+\end{warnbox}
+ 
+\bigskip
+\noindent\textbf{Step 3 --- INPUT chain rules (traffic destined for the router)}
+ 
+\begin{lstlisting}[style=terminal]
+# Allow loopback
+iptables -A INPUT -i lo -j ACCEPT
+ 
+# Allow SSH from management interface (eth0) only
+iptables -A INPUT -i eth0 -p tcp --dport 22 -j ACCEPT
+ 
+# Allow ICMP (ping / diagnostics) from management interface
+iptables -A INPUT -i eth0 -p icmp -j ACCEPT
+ 
+# Allow established and related connections initiated by the router
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Step 4 --- FORWARD chain rules (traffic passing between zones)}
+ 
+\begin{lstlisting}[style=terminal]
+# Allow established and related forwarded connections (stateful tracking)
+iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+ 
+# Allow HTTP from scan-net (eth0) to target-net (eth1)
+iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 80 -j ACCEPT
+ 
+# Allow HTTPS from scan-net to target-net
+iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 443 -j ACCEPT
+ 
+# Allow SSH from scan-net to target-net
+iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 22 -j ACCEPT
+ 
+# Allow ICMP from scan-net to target-net
+iptables -A FORWARD -i eth0 -o eth1 -p icmp -j ACCEPT
+ 
+# Block all outbound traffic initiated from target-net
+iptables -A FORWARD -i eth1 -o eth0 -j DROP
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Step 5 --- Restrict Webmin to management interface}
+ 
+Webmin binds to all interfaces by default. Edit its configuration to restrict
+it to the eth0 address only.
+ 
+\begin{lstlisting}[style=terminal]
+# Edit /etc/webmin/miniserv.conf
+# Find or add the 'bind' directive and set it to the eth0 IP
+bind=192.168.56.106
+ 
+# Restart Webmin to apply
+systemctl restart webmin
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Step 6 --- Persist the ruleset}
+ 
+\begin{lstlisting}[style=terminal]
+# Save rules to the persistence files
+netfilter-persistent save
+ 
+# Verify the files were written
+cat /etc/iptables/rules.v4
+\end{lstlisting}
+ 
+The \texttt{netfilter-persistent} service is enabled by default after
+installation and will reload these rules automatically on boot.
+ 
+\bigskip
+ 
+\begin{impactbox}
+\textbf{Impact / Downtime:} The flush and policy change in Step~2 causes a
+brief interruption (typically under five seconds) to any active forwarded
+connections. SSH sessions to the router itself are not interrupted if the
+administrator is connected via eth0. Webmin will be unreachable from eth1
+after Step~5; this is intentional.
+\end{impactbox}
+ 
+\bigskip
+ 
+\begin{verifybox}
+\textbf{Verification:}
+\begin{lstlisting}[style=terminal]
+# Confirm default policies are DROP on INPUT and FORWARD
+iptables -L -n -v | grep -E "Chain (INPUT|FORWARD|OUTPUT)"
+ 
+# From the Kali machine, confirm blocked services no longer respond
+# (RDP, SMB, MySQL, FTP, SMTP, RPC, WinRM should all be filtered)
+nmap -sV 192.168.56.0/24
+ 
+# Confirm HTTP and SSH still flow to target hosts
+curl -I http://192.168.56.102
+ssh user@192.168.56.105
+ 
+# Confirm Webmin is no longer reachable from eth1
+curl -k https://192.168.56.106:10000  # should time out from target-net side
+ 
+# Confirm rules persist after reboot
+reboot
+iptables -L -n -v  # re-run after restart; rules should be identical
+\end{lstlisting}
+\end{verifybox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F1 --- Anonymous FTP Login}
+\sectionrule
+ 
+\noindent\tfbadge{immediatecol}{Immediate}
+\quad\textbf{System:} Ubuntu (192.168.56.102)
+\quad\textbf{Service Impact:} FTP service restart required --- seconds of
+downtime
+ 
+\bigskip
+\noindent\textbf{Background}
+ 
+The vsftpd service accepts \texttt{anonymous} and \texttt{ftp} as valid
+usernames with no password verification, exposing a directory explicitly named
+\texttt{confidential}. This requires zero credentials to exploit. Before
+remediating, the contents of the \texttt{confidential} directory must be
+reviewed for PHI or sensitive data to assess whether a HIPAA breach
+notification obligation exists.
+ 
+\bigskip
+\noindent\textbf{Step 1 --- Audit the confidential directory before making changes}
+ 
+\begin{lstlisting}[style=terminal]
+# Review what is currently exposed
+ftp 192.168.56.102
+# Login: anonymous / (blank password)
+ls confidential/
+\end{lstlisting}
+ 
+Document all files present and escalate to MedTech's privacy officer if any
+patient records, billing data, or identifiable health information is found.
+ 
+\bigskip
+\noindent\textbf{Step 2 --- Disable anonymous login in vsftpd}
+ 
+\begin{lstlisting}[style=terminal]
+# Edit the vsftpd configuration file
+nano /etc/vsftpd.conf
+ 
+# Locate and set the following directives:
+anonymous_enable=NO
+no_anon_password=NO    # ensure this is not overriding the above
+ 
+# Save and restart the service
+systemctl restart vsftpd
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Step 3 (Optional) --- Disable FTP entirely if SFTP is sufficient}
+ 
+If file transfer can be handled over the existing SSH service, the cleanest
+remediation is to disable vsftpd altogether and use SFTP, which is built into
+OpenSSH and requires no additional configuration.
+ 
+\begin{lstlisting}[style=terminal]
+systemctl stop vsftpd
+systemctl disable vsftpd
+\end{lstlisting}
+ 
+\begin{impactbox}
+\textbf{Impact / Downtime:} Restarting vsftpd interrupts active FTP transfers
+for a few seconds. Any users or automated processes currently relying on
+anonymous FTP access will lose that access immediately and permanently. If
+any legitimate workflows depend on anonymous FTP, they must be identified and
+migrated to authenticated access before this change is applied.
+\end{impactbox}
+ 
+\bigskip
+ 
+\begin{verifybox}
+\textbf{Verification:}
+\begin{lstlisting}[style=terminal]
+# Attempt anonymous login --- should be rejected
+ftp 192.168.56.102
+# Enter: anonymous / (blank)
+# Expected: "530 Login incorrect" or "530 Permission denied"
+ 
+# Confirm with nmap that FTP is still up (if not disabled) but anonymous
+# login is blocked
+nmap -sV -p 21 --script ftp-anon 192.168.56.102
+# Expected output: "Anonymous FTP login allowed: false"
+\end{lstlisting}
+\end{verifybox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F2 --- Cleartext HTTP Credential Transmission}
+\sectionrule
+ 
+\noindent\tfbadge{immediatecol}{Immediate}
+\quad\textbf{System:} Ubuntu (192.168.56.102)
+\quad\textbf{Service Impact:} Web application restart required --- brief
+downtime
+ 
+\bigskip
+\noindent\textbf{Background}
+ 
+The login form at \texttt{http://192.168.56.102/login} transmits credentials
+over plain HTTP. Any device on the same network segment can intercept these
+credentials passively. The application is currently being served by Werkzeug,
+a Python development framework not intended for production use. This
+remediation focuses on enforcing TLS; migration away from Werkzeug is noted
+as a required follow-on task.
+ 
+\bigskip
+\noindent\textbf{Step 1 --- Generate a TLS certificate}
+ 
+For an internal network, a self-signed certificate is acceptable as an
+immediate fix. A CA-signed certificate should be obtained before any
+internet-facing deployment.
+ 
+\begin{lstlisting}[style=terminal]
+# Generate a self-signed certificate valid for 365 days
+openssl req -x509 -newkey rsa:4096 -keyout /etc/ssl/private/medtech.key \
+  -out /etc/ssl/certs/medtech.crt -days 365 -nodes \
+  -subj "/CN=192.168.56.102/O=MedTech Solutions"
+ 
+# Set correct permissions on the private key
+chmod 600 /etc/ssl/private/medtech.key
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Step 2 --- Enable TLS in the Werkzeug application}
+ 
+Locate the section of the application code where the Werkzeug development
+server is started (typically a call to \texttt{app.run()}) and add the
+\texttt{ssl\_context} parameter.
+ 
+\begin{lstlisting}[style=terminal]
+# In the Flask/Werkzeug application entry point (e.g. app.py):
+app.run(
+    host='0.0.0.0',
+    port=443,
+    ssl_context=(
+        '/etc/ssl/certs/medtech.crt',
+        '/etc/ssl/private/medtech.key'
+    )
+)
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Step 3 --- Redirect HTTP to HTTPS}
+ 
+Add a redirect so that any request arriving on port 80 is automatically
+forwarded to the HTTPS endpoint.
+ 
+\begin{lstlisting}[style=terminal]
+# Add before app.run() in the application code:
+from flask import redirect, request
+ 
+@app.before_request
+def enforce_https():
+    if not request.is_secure:
+        url = request.url.replace("http://", "https://", 1)
+        return redirect(url, code=301)
+\end{lstlisting}
+ 
+\begin{warnbox}
+\textbf{Follow-on task required:} Werkzeug is a development server and must
+not remain in production. Once TLS is enforced, the application should be
+migrated to a production WSGI stack. The recommended path is nginx as a
+reverse proxy with gunicorn as the application server. This involves
+installing both packages, writing an nginx \texttt{server} block that
+terminates TLS and proxies requests to gunicorn on localhost, and configuring
+a systemd service for gunicorn. This is a separate change window task.
+\end{warnbox}
+ 
+\bigskip
+ 
+\begin{impactbox}
+\textbf{Impact / Downtime:} The application must be restarted to apply the
+TLS configuration change. Users with active sessions will be disconnected.
+After the change, browsers accessing \texttt{http://192.168.56.102} will be
+redirected to HTTPS; clients that have hardcoded the HTTP URL will need to
+update their bookmarks or configurations.
+\end{impactbox}
+ 
+\bigskip
+ 
+\begin{verifybox}
+\textbf{Verification:}
+\begin{lstlisting}[style=terminal]
+# Confirm HTTPS is serving the login page
+curl -k -I https://192.168.56.102/login
+# Expected: HTTP/1.1 200 OK
+ 
+# Confirm HTTP redirects to HTTPS
+curl -I http://192.168.56.102/login
+# Expected: HTTP/1.1 301 Moved Permanently
+#           Location: https://192.168.56.102/login
+ 
+# Confirm credentials are no longer visible in plaintext
+# Run a packet capture during a login attempt and verify the
+# POST body is encrypted
+tcpdump -i eth0 -w /tmp/capture.pcap host 192.168.56.102
+# Open in Wireshark --- login POST should appear as TLS Application Data,
+# not readable form fields
+\end{lstlisting}
+\end{verifybox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F3 --- FTP Cleartext Authentication}
+\sectionrule
+ 
+\noindent\tfbadge{immediatecol}{Immediate}
+\quad\textbf{System:} Ubuntu (192.168.56.102)
+\quad\textbf{Service Impact:} FTP service restart required --- seconds of
+downtime. \textbf{Depends on F1 being completed first.}
+ 
+\bigskip
+\noindent\textbf{Background}
+ 
+Even after anonymous access is disabled (F1), authenticated FTP sessions
+transmit credentials in plaintext unless AUTH TLS is enforced. This finding
+addresses that residual exposure. The preferred remediation is to migrate to
+SFTP entirely; the AUTH TLS approach is provided as an alternative if FTP
+must be retained.
+ 
+\bigskip
+\noindent\textbf{Option A (Preferred) --- Migrate to SFTP}
+ 
+SFTP is provided natively by the OpenSSH service already running on port 22.
+No additional software is required. Users connect with their existing system
+credentials.
+ 
+\begin{lstlisting}[style=terminal]
+# Confirm SFTP subsystem is enabled in sshd (it is by default)
+grep -i subsystem /etc/ssh/sshd_config
+# Expected output: Subsystem sftp /usr/lib/openssh/sftp-server
+ 
+# If the line is commented out, uncomment it and restart SSH
+systemctl restart sshd
+ 
+# Disable vsftpd entirely once users are migrated
+systemctl stop vsftpd
+systemctl disable vsftpd
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Option B --- Enforce AUTH TLS on vsftpd}
+ 
+If FTP must be retained, enforce TLS for all sessions. This requires the
+certificate generated in F2 (or a dedicated FTP certificate).
+ 
+\begin{lstlisting}[style=terminal]
+# Edit /etc/vsftpd.conf and add or update the following directives:
+ssl_enable=YES
+force_local_logins_ssl=YES
+force_local_data_ssl=YES
+ssl_tlsv1_2=YES
+ssl_sslv2=NO
+ssl_sslv3=NO
+ssl_tlsv1=NO
+rsa_cert_file=/etc/ssl/certs/medtech.crt
+rsa_private_key_file=/etc/ssl/private/medtech.key
+ 
+# Restart vsftpd
+systemctl restart vsftpd
+\end{lstlisting}
+\newpage
+\begin{impactbox}
+\textbf{Impact / Downtime:} Option A removes FTP entirely; any clients
+currently using FTP must be reconfigured to use SFTP (port 22). Most FTP
+clients support SFTP natively. Option B requires a vsftpd restart (seconds of
+downtime) and requires FTP clients to support AUTH TLS --- plain FTP clients
+will be rejected after this change.
+\end{impactbox}
+ 
+\bigskip
+ 
+\begin{verifybox}
+\textbf{Verification (Option A):}
+\begin{lstlisting}[style=terminal]
+# Confirm SFTP login succeeds with valid credentials
+sftp user@192.168.56.102
+# Should prompt for password and drop into an sftp> shell
+ 
+# Confirm FTP port is no longer open
+nmap -p 21 192.168.56.102
+# Expected: 21/tcp closed ftp
+\end{lstlisting}
+ 
+\textbf{Verification (Option B):}
+\begin{lstlisting}[style=terminal]
+# Attempt plain FTP login --- should be rejected
+ftp 192.168.56.102
+# Expected: connection refused or AUTH TLS required error
+ 
+# Confirm FTPS connects successfully with an AUTH TLS-capable client
+lftp -u user,password -e "set ftp:ssl-force true; ls; quit" \
+  192.168.56.102
+ 
+# Confirm with nmap script
+nmap -p 21 --script ftp-syst,ftp-anon 192.168.56.102
+\end{lstlisting}
+\end{verifybox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F4 --- Deprecated TLS 1.0 and 1.1 on RDP}
+\sectionrule
+ 
+\noindent\tfbadge{shortcol}{Short-Term}
+\quad\textbf{System:} Windows (192.168.56.105)
+\quad\textbf{Service Impact:} Registry change requires reboot to take full
+effect
+ 
+\bigskip
+\noindent\textbf{Background}
+ 
+The RDP service on the Windows server advertises support for TLS 1.0 and 1.1
+in addition to TLS 1.2. Both older protocol versions have known cryptographic
+weaknesses (CVE-2011-3389, CVE-2015-0204) that can allow downgrade attacks.
+The fix is a set of registry changes that disable TLS 1.0 and 1.1 at the
+Schannel provider level, affecting all services on the host that use the
+Windows TLS stack.
+ 
+\bigskip
+\noindent\textbf{Step 1 --- Disable TLS 1.0}
+ 
+Open an elevated PowerShell or Command Prompt and run the following:
+ 
+\begin{lstlisting}[style=terminal]
+# Disable TLS 1.0 for the server role
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Server" /v Enabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Server" /v DisabledByDefault /t REG_DWORD /d 1 /f
+ 
+# Disable TLS 1.0 for the client role
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Client" /v Enabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Client" /v DisabledByDefault /t REG_DWORD /d 1 /f
+\end{lstlisting}
+ 
+\newpage
+\noindent\textbf{Step 2 --- Disable TLS 1.1}
+ 
+\begin{lstlisting}[style=terminal]
+# Disable TLS 1.1 for the server role
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Server" /v Enabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Server" /v DisabledByDefault /t REG_DWORD /d 1 /f
+ 
+# Disable TLS 1.1 for the client role
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Client" /v Enabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Client" /v DisabledByDefault /t REG_DWORD /d 1 /f
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Step 3 --- Explicitly confirm TLS 1.2 is enabled}
+ 
+TLS 1.2 should be enabled by default on modern Windows Server builds, but
+confirm it explicitly to avoid locking out RDP connections after the reboot.
+ 
+\begin{lstlisting}[style=terminal]
+# Confirm TLS 1.2 is enabled for both server and client roles
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server" /v Enabled /t REG_DWORD /d 1 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server" /v DisabledByDefault /t REG_DWORD /d 0 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client" /v Enabled /t REG_DWORD /d 1 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client" /v DisabledByDefault /t REG_DWORD /d 0 /f
+\end{lstlisting}
+ 
+\newpage
+\noindent\textbf{Step 4 --- Reboot}
+ 
+\begin{lstlisting}[style=terminal]
+shutdown /r /t 60 /c "Applying TLS hardening changes"
+\end{lstlisting}
+ 
+\begin{impactbox}
+\textbf{Impact / Downtime:} The registry changes have no immediate effect ---
+the server must be rebooted for Schannel to pick them up. Plan a maintenance
+window accordingly. After the reboot, any RDP client that supports only TLS
+1.0 or 1.1 will be unable to connect. All modern RDP clients (Windows 7+,
+Remote Desktop app on macOS/iOS/Android) support TLS 1.2 and will be
+unaffected.
+\end{impactbox}
+ 
+\bigskip
+ 
+\begin{verifybox}
+\textbf{Verification:}
+\begin{lstlisting}[style=terminal]
+# From the Kali machine, scan the RDP port and check supported protocols
+nmap -p 3389 --script rdp-enum-encryption 192.168.56.105
+# Expected: TLS 1.0 and TLS 1.1 absent from results
+# TLS 1.2 (or higher) should be the only negotiated protocol
+ 
+# Alternatively, use testssl.sh against port 3389:
+testssl.sh --protocols 192.168.56.105:3389
+# Expected: TLSv1 and TLSv1.1 listed as "not offered"
+\end{lstlisting}
+\end{verifybox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F5 --- DCE/RPC Endpoint Enumeration}
+\sectionrule
+ 
+\noindent\tfbadge{shortcol}{Short-Term}
+\quad\textbf{System:} Windows (192.168.56.105)
+\quad\textbf{Service Impact:} Firewall rule change only --- no service restart
+required
+ 
+\bigskip
+\noindent\textbf{Background}
+ 
+Port 135 (Microsoft RPC endpoint mapper) is responding to enumeration queries
+and returning a full list of active RPC services including \texttt{lsass.exe},
+\texttt{spoolsv.exe}, and Windows Event Log endpoints. This information assists
+an attacker in identifying specific targets for privilege escalation or lateral
+movement. The Print Spooler service in particular has a well-documented history
+of critical exploits. The fix has two components: restrict port 135 to trusted
+addresses, and evaluate whether the Print Spooler service is needed on this
+host.
+ 
+\bigskip
+\noindent\textbf{Step 1 --- Restrict port 135 via Windows Firewall}
+ 
+Run the following in an elevated PowerShell session:
+ 
+\begin{lstlisting}[style=terminal]
+# Block inbound RPC endpoint mapper from all addresses
+New-NetFirewallRule -DisplayName "Block RPC Endpoint Mapper" `
+  -Direction Inbound `
+  -Protocol TCP `
+  -LocalPort 135 `
+  -Action Block
+ 
+# If a specific management IP needs RPC access, add an allow rule
+# with higher priority (lower number = higher priority)
+New-NetFirewallRule -DisplayName "Allow RPC from Management" `
+  -Direction Inbound `
+  -Protocol TCP `
+  -LocalPort 135 `
+  -RemoteAddress 192.168.56.103 `
+  -Action Allow `
+  -Priority 1
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Step 2 --- Evaluate and disable the Print Spooler service}
+ 
+If this server does not perform printing functions, the Print Spooler service
+should be disabled. It is a recurring target for privilege escalation exploits
+(including PrintNightmare, CVE-2021-34527).
+ 
+\begin{lstlisting}[style=terminal]
+# Check if the Spooler service is running
+Get-Service -Name Spooler
+ 
+# If not needed, stop and disable it
+Stop-Service -Name Spooler -Force
+Set-Service -Name Spooler -StartupType Disabled
+\end{lstlisting}
+ 
+\begin{impactbox}
+\textbf{Impact / Downtime:} The firewall rule change takes effect immediately
+with no reboot required. Blocking port 135 has no impact on normal user
+workflows unless a management tool relies on DCOM or WMI over RPC from a
+non-whitelisted address --- confirm this before applying. Disabling the Print
+Spooler removes all printing capability from the server; verify no print
+queues or shared printers depend on this host before disabling.
+\end{impactbox}
+ 
+\bigskip
+ 
+\begin{verifybox}
+\textbf{Verification:}
+\begin{lstlisting}[style=terminal]
+# From the Kali machine, confirm port 135 no longer responds to enumeration
+nmap -p 135 --script msrpc-enum 192.168.56.105
+# Expected: port 135 filtered or enumeration returns no results
+ 
+# Confirm the Spooler service is stopped (if disabled)
+# Run on the Windows host:
+Get-Service -Name Spooler
+# Expected: Status = Stopped, StartType = Disabled
+\end{lstlisting}
+\end{verifybox}
+\newpage
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F6 --- Weak SSH MAC Algorithms}
+\sectionrule
+ 
+\noindent\tfbadge{longcol}{Long-Term}
+\quad\textbf{System:} Ubuntu (192.168.56.102) and Windows (192.168.56.105)
+\quad\textbf{Service Impact:} SSH service restart required on each host ---
+seconds of downtime
+ 
+\bigskip
+\noindent\textbf{Background}
+ 
+Both SSH servers advertise support for \texttt{umac-64-etm@openssh.com} and
+\texttt{umac-64@openssh.com} --- 64-bit MAC algorithms considered
+cryptographically weak by current standards. The fix is a one-line
+configuration change on each host to restrict the advertised MAC list to
+strong algorithms only.
+ 
+\bigskip
+\noindent\textbf{Ubuntu (192.168.56.102)}
+ 
+\begin{lstlisting}[style=terminal]
+# Edit the SSH server configuration
+nano /etc/ssh/sshd_config
+ 
+# Add or update the MACs directive to allow only strong algorithms:
+MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha2-512
+ 
+# Validate the configuration before restarting
+sshd -t
+# Expected: no output (no errors)
+ 
+# Restart the SSH service
+systemctl restart sshd
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Windows (192.168.56.105)}
+ 
+OpenSSH for Windows stores its configuration at
+\texttt{C:\textbackslash ProgramData\textbackslash ssh\textbackslash sshd\_config}.
+ 
+\begin{lstlisting}[style=terminal]
+# Open the configuration file in an elevated text editor
+notepad C:\ProgramData\ssh\sshd_config
+ 
+# Add or update the MACs directive:
+MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha2-512
+ 
+# Restart the OpenSSH server service
+Restart-Service sshd
+\end{lstlisting}
+ 
+\begin{impactbox}
+\textbf{Impact / Downtime:} Each SSH service restart disconnects active
+sessions for a few seconds. After the change, SSH clients that support only
+\texttt{umac-64} MACs will be unable to connect; this is unlikely in practice
+as all modern OpenSSH clients (version 6.9+) support \texttt{hmac-sha2-256}
+and \texttt{hmac-sha2-512}.
+\end{impactbox}
+ 
+\newpage
+ 
+\begin{verifybox}
+\textbf{Verification:}
+\begin{lstlisting}[style=terminal]
+# From the Kali machine, check the advertised MAC algorithms on each host
+nmap -p 22 --script ssh2-enum-algos 192.168.56.102
+nmap -p 22 --script ssh2-enum-algos 192.168.56.105
+ 
+# In both outputs, confirm:
+# - umac-64-etm@openssh.com is ABSENT from the mac_algorithms list
+# - umac-64@openssh.com is ABSENT from the mac_algorithms list
+# - hmac-sha2-256 and/or hmac-sha2-512 are PRESENT
+ 
+# Confirm SSH login still works after the change
+ssh user@192.168.56.102
+ssh user@192.168.56.105
+\end{lstlisting}
+\end{verifybox}
+
+\section{Compensating Controls}
+Compensating controls are interim measures applied when a finding cannot be
+fully remediated immediately. They do not replace the fixes described in
+Section~2 --- they reduce exposure in the time between discovery and
+resolution. Each control in this section is implementable using tools and
+capabilities already present on the MedTech network, requiring no new hardware
+or software procurement.
+ 
+Controls are organized by the system or finding they address. Where a finding
+has both a compensating control and a dependency on another finding, the
+dependency is noted.
+ 
+\begin{notebox}
+\textbf{Note on the EHR server:} The Ubuntu application server
+(192.168.56.102) is treated throughout this section as the legacy EHR host.
+In a healthcare environment, changes to an EHR system --- even configuration
+changes to adjacent services --- often require vendor coordination, change
+freeze compliance, or scheduled downtime windows. The compensating controls
+for Ubuntu-hosted findings are written with that constraint in mind:
+they harden the environment around the EHR server without touching the
+server itself.
+\end{notebox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Firewall Gaps (FW1--FW4): Before Hardening Is Applied}
+\sectionrule
+ 
+\noindent\tfbadge{immediatecol}{Immediate}
+\quad\textbf{System:} Router (192.168.56.106)
+\quad\textbf{Applies until:} Full firewall hardening from Section~2 is
+implemented
+ 
+\bigskip
+\noindent\textbf{Situation}
+ 
+Until the iptables ruleset is replaced, the router forwards all traffic
+between zones with no filtering and no stateful tracking. Every host-level
+vulnerability on the network is reachable from any device on either interface.
+The compensating controls here aim to reduce that exposure at the service
+level on each host while the maintenance window for the firewall change is
+arranged.
+ 
+\bigskip
+\noindent\textbf{Control 1 --- Enable packet logging on the router}
+ 
+With default ACCEPT policies in place, adding a logging rule before the
+ACCEPT default gives visibility into traffic that would otherwise pass
+silently. This does not block anything but creates an audit trail and can
+surface unexpected access attempts.
+ 
+\begin{lstlisting}[style=terminal]
+# Log all inbound traffic not matched by an explicit rule
+# Insert at the end of the INPUT chain
+iptables -A INPUT -j LOG --log-prefix "FW-INPUT-UNMATCHED: " --log-level 4
+ 
+# Log all forwarded traffic
+iptables -A FORWARD -j LOG --log-prefix "FW-FORWARD-UNMATCHED: " \
+  --log-level 4
+ 
+# Logs will appear in the kernel log, readable via:
+tail -f /var/log/kern.log | grep "FW-"
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Control 2 --- Restrict Webmin access at the service level}
+ 
+Even before the full firewall hardening is applied, Webmin can be restricted
+to the management interface immediately by editing its configuration. This
+closes the most dangerous management exposure without touching iptables.
+ 
+\begin{lstlisting}[style=terminal]
+# Edit /etc/webmin/miniserv.conf
+# Add or update the bind directive:
+bind=192.168.56.106
+ 
+# Restart Webmin
+systemctl restart webmin
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Control 3 --- Monitor active connections on the router}
+ 
+Periodically review what connections are passing through the router to
+identify unexpected traffic patterns before the full ruleset is in place.
+ 
+\begin{lstlisting}[style=terminal]
+# View active forwarded connections
+conntrack -L
+ 
+# Watch for new connections in real time
+conntrack -E
+ 
+# Check which processes are listening on all interfaces
+ss -tulnp
+\end{lstlisting}
+ 
+\begin{impactbox}
+\textbf{Limitation:} These controls provide visibility and reduce the Webmin
+exposure but do not substitute for the default DROP policy and explicit
+forwarding rules described in Section~2. Anonymous FTP, cleartext HTTP, and
+RDP with deprecated TLS remain accessible from the scan network until the
+full firewall hardening is applied.
+\end{impactbox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F1 and F3: Anonymous FTP and Cleartext FTP Auth}
+\sectionrule
+ 
+\noindent\tfbadge{immediatecol}{Immediate}
+\quad\textbf{System:} Ubuntu EHR server (192.168.56.102), port 21
+\quad\textbf{Applies until:} Anonymous access is disabled and SFTP migration
+or AUTH TLS enforcement is complete
+ 
+\bigskip
+\noindent\textbf{Situation}
+ 
+Anonymous FTP access to a directory named \texttt{confidential} represents
+the single highest-priority data exposure risk in the assessment. If a
+change freeze or EHR vendor coordination requirement prevents immediate
+modification of the vsftpd configuration, the following controls reduce the
+risk of exploitation and establish an audit trail while the fix is being
+scheduled.
+ 
+\bigskip
+\noindent\textbf{Control 1 --- Block FTP at the router before the host fix is applied}
+ 
+If the firewall hardening from Section~2 cannot be applied immediately either,
+a targeted rule blocking port 21 at the router provides an interim layer of
+protection for this specific service without modifying the EHR server itself.
+ 
+\begin{lstlisting}[style=terminal]
+# On the router: block inbound FTP to the Ubuntu server
+# This can be applied even before the full firewall hardening
+iptables -I FORWARD -p tcp -d 192.168.56.102 --dport 21 -j DROP
+ 
+# Log dropped FTP attempts for the audit trail
+iptables -I FORWARD -p tcp -d 192.168.56.102 --dport 21 \
+  -j LOG --log-prefix "FTP-BLOCKED: " --log-level 4
+\end{lstlisting}
+ 
+\begin{warnbox}
+\textbf{Important:} This rule blocks FTP access to the Ubuntu server from the
+network but does not prevent local access from the server itself or from
+any host on the same subnet that bypasses the router. It is a layer of
+defense-in-depth, not a complete fix. The vsftpd configuration must still
+be corrected per Section~2.
+\end{warnbox}
+ 
+\bigskip
+\noindent\textbf{Control 2 --- Enable FTP access logging on the Ubuntu server}
+ 
+If the vsftpd configuration cannot be changed immediately, enable verbose
+logging to capture all anonymous access attempts and file activity. This
+creates an audit record and supports any HIPAA breach assessment that may
+be required.
+ 
+\begin{lstlisting}[style=terminal]
+# Edit /etc/vsftpd.conf and confirm or add the following:
+xferlog_enable=YES
+xferlog_std_format=NO
+log_ftp_protocol=YES
+vsftpd_log_file=/var/log/vsftpd.log
+ 
+# Restart vsftpd to apply logging changes only
+systemctl restart vsftpd
+ 
+# Monitor the log in real time
+tail -f /var/log/vsftpd.log
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Control 3 --- Audit and relocate the confidential directory}
+ 
+While the access control fix is being scheduled, immediately audit the
+contents of the \texttt{confidential} directory and move any sensitive files
+to a location not served by vsftpd. This does not require a service restart.
+ 
+\begin{lstlisting}[style=terminal]
+# Review the current contents
+ls -la /home/ftp/confidential/   # adjust path to match actual vsftpd root
+ 
+# Move sensitive files out of the FTP-served directory
+mv /home/ftp/confidential/* /root/confidential_archive/
+ 
+# Confirm the directory now appears empty to anonymous users
+ftp 192.168.56.102
+# Login: anonymous
+# ls confidential/
+# Expected: empty directory listing
+\end{lstlisting}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F2: Cleartext HTTP Credential Transmission}
+\sectionrule
+ 
+\noindent\tfbadge{immediatecol}{Immediate}
+\quad\textbf{System:} Ubuntu EHR server (192.168.56.102), port 80
+\quad\textbf{Applies until:} TLS is enforced on the web application per
+Section~2
+ 
+\bigskip
+\noindent\textbf{Situation}
+ 
+The web login page transmits credentials in plaintext over HTTP. Until TLS
+is enforced, the primary compensating control is to limit which hosts can
+reach the login page at all, and to monitor for credential interception
+attempts on the network segment.
+ 
+\bigskip
+\noindent\textbf{Control 1 --- Restrict HTTP access to authorized hosts only}
+ 
+Using the router, limit which source addresses can reach port 80 on the
+Ubuntu server. This does not encrypt the traffic but significantly reduces
+the number of hosts that could intercept credentials.
+ 
+\begin{lstlisting}[style=terminal]
+# On the router: allow HTTP to the Ubuntu server only from
+# known authorized addresses (adjust the source IP as needed)
+iptables -I FORWARD -p tcp -d 192.168.56.102 --dport 80 \
+  -s 192.168.56.103 -j ACCEPT
+ 
+# Block HTTP from all other sources
+iptables -I FORWARD -p tcp -d 192.168.56.102 --dport 80 -j DROP
+ 
+# Log blocked attempts
+iptables -I FORWARD -p tcp -d 192.168.56.102 --dport 80 \
+  -j LOG --log-prefix "HTTP-BLOCKED: " --log-level 4
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Control 2 --- Monitor for credential interception on the network}
+ 
+From the Kali management machine, run a passive packet capture on the subnet
+during business hours to detect whether any host is intercepting credentials
+in transit. This is a monitoring control --- it does not prevent interception
+but provides evidence if it occurs.
+ 
+\begin{lstlisting}[style=terminal]
+# On the Kali machine: capture HTTP traffic on the network segment
+# and filter for POST requests (which carry login credentials)
+tcpdump -i eth0 -A 'tcp port 80 and (tcp[((tcp[12:1] & 0xf0) >> 2):4] \
+  = 0x504f5354)' -w /tmp/http_capture.pcap
+ 
+# Review the capture for any plaintext credential fields
+strings /tmp/http_capture.pcap | grep -iE "password|passwd|pwd|login"
+\end{lstlisting}
+ 
+\begin{impactbox}
+\textbf{Limitation:} Restricting access by source IP (Control~1) reduces
+exposure but does not eliminate it --- a compromised authorized host, or an
+attacker who spoofs an authorized address on the local segment, could still
+intercept credentials. TLS enforcement per Section~2 is the only complete
+fix.
+\end{impactbox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F4: Deprecated TLS on RDP}
+\sectionrule
+ 
+\noindent\tfbadge{shortcol}{Short-Term}
+\quad\textbf{System:} Windows server (192.168.56.105), port 3389
+\quad\textbf{Applies until:} TLS 1.0 and 1.1 are disabled via registry per
+Section~2
+ 
+\bigskip
+\noindent\textbf{Situation}
+ 
+The registry fix for this finding requires a reboot, which may need to be
+scheduled during a maintenance window. In the meantime, the primary risk is
+that an attacker on the network could downgrade an RDP session to TLS 1.0 or
+1.1 and decrypt the traffic. The compensating control is to restrict which
+hosts can initiate RDP connections at all, reducing the opportunity for a
+downgrade attack.
+ 
+\bigskip
+\noindent\textbf{Control 1 --- Restrict RDP access to the management host only}
+ 
+\begin{lstlisting}[style=terminal]
+# On the router: allow RDP only from the Kali management machine
+iptables -I FORWARD -p tcp -d 192.168.56.105 --dport 3389 \
+  -s 192.168.56.103 -j ACCEPT
+ 
+# Block RDP from all other sources
+iptables -I FORWARD -p tcp -d 192.168.56.105 --dport 3389 -j DROP
+ 
+# Log blocked RDP attempts
+iptables -I FORWARD -p tcp -d 192.168.56.105 --dport 3389 \
+  -j LOG --log-prefix "RDP-BLOCKED: " --log-level 4
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Control 2 --- Restrict RDP on the Windows host itself}
+ 
+As a second layer, use Windows Firewall to enforce the same restriction
+locally on the host. This ensures the control holds even if the router
+rules are not yet in place.
+ 
+\begin{lstlisting}[style=terminal]
+# In an elevated PowerShell session on the Windows server:
+ 
+# Remove any existing broad RDP allow rules
+Get-NetFirewallRule -DisplayName "*Remote Desktop*" | `
+  Where-Object { $_.Action -eq "Allow" } | Remove-NetFirewallRule
+ 
+# Add a targeted allow rule for the management host only
+New-NetFirewallRule -DisplayName "RDP - Management Only" `
+  -Direction Inbound `
+  -Protocol TCP `
+  -LocalPort 3389 `
+  -RemoteAddress 192.168.56.103 `
+  -Action Allow
+ 
+# Confirm the rule is active
+Get-NetFirewallRule -DisplayName "RDP - Management Only"
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Control 3 --- Monitor RDP connection attempts}
+ 
+Enable logging of RDP connection attempts on the Windows server so that any
+unauthorized access attempts during the remediation window are captured in
+the event log.
+ 
+\begin{lstlisting}[style=terminal]
+# Enable audit logging for logon events in an elevated PowerShell session
+auditpol /set /subcategory:"Logon" /success:enable /failure:enable
+ 
+# Review recent RDP logon events (Event ID 4624 = success, 4625 = failure)
+Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4624,4625} `
+  | Select-Object TimeCreated, Message | Format-List
+\end{lstlisting}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{F5: DCE/RPC Endpoint Enumeration}
+\sectionrule
+ 
+\noindent\tfbadge{shortcol}{Short-Term}
+\quad\textbf{System:} Windows server (192.168.56.105), port 135
+\quad\textbf{Applies until:} Port 135 is restricted and Print Spooler is
+evaluated per Section~2
+ 
+\bigskip
+\noindent\textbf{Situation}
+ 
+Port 135 is currently responding to enumeration queries from any host on the
+network, returning a map of internal RPC services including security and print
+management processes. Until the firewall rule restricting port 135 is applied,
+the compensating control is to limit network access to port 135 and monitor
+for enumeration activity.
+ 
+\bigskip
+\noindent\textbf{Control 1 --- Block port 135 at the router}
+ 
+\begin{lstlisting}[style=terminal]
+# On the router: block RPC endpoint mapper access from the scan network
+iptables -I FORWARD -p tcp -d 192.168.56.105 --dport 135 -j DROP
+ 
+# Log blocked attempts to detect active enumeration
+iptables -I FORWARD -p tcp -d 192.168.56.105 --dport 135 \
+  -j LOG --log-prefix "RPC-BLOCKED: " --log-level 4
+\end{lstlisting}
+ 
+\bigskip
+\noindent\textbf{Control 2 --- Disable the Print Spooler service immediately}
+ 
+Unlike the firewall rule for port 135, disabling the Print Spooler requires
+no reboot and no maintenance window. If printing is not required on this
+host, this is a zero-downtime hardening action that can be taken immediately
+regardless of the broader remediation schedule.
+ 
+\begin{lstlisting}[style=terminal]
+# In an elevated PowerShell session on the Windows server:
+Stop-Service -Name Spooler -Force
+Set-Service -Name Spooler -StartupType Disabled
+ 
+# Confirm
+Get-Service -Name Spooler
+# Expected: Status = Stopped, StartType = Disabled
+\end{lstlisting}
+ 
+\begin{notebox}
+\textbf{Note:} Disabling the Print Spooler is listed here as a compensating
+control because it can be done immediately, but it is also the permanent
+remediation for that specific exposure. Applying it now does not remove the
+need to restrict port 135 via the firewall rule in Section~2 --- the RPC
+endpoint mapper will still advertise other services until that rule is in
+place.
+\end{notebox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Summary of Compensating Controls}
+\sectionrule
+ 
+The table below maps each compensating control to the finding it addresses,
+the mechanism used, and the condition under which it can be retired in favor
+of the full remediation from Section~2.
+ 
+\bigskip
+ 
+\noindent
+\begin{longtable}{>{\bfseries}p{1.0cm} p{3.0cm} p{2.8cm} p{3.8cm}}
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Control} &
+  \color{white}\textbf{Mechanism} &
+  \color{white}\textbf{Retire when\ldots} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Control} &
+  \color{white}\textbf{Mechanism} &
+  \color{white}\textbf{Retire when\ldots} \\
+  \endhead
+  \midrule
+ 
+  FW1--4 &
+  Packet logging on router &
+  iptables LOG rules &
+  Full hardening ruleset applied \\[4pt]
+ 
+  FW4 &
+  Restrict Webmin to eth0 &
+  miniserv.conf bind directive &
+  Firewall rule restricts port 10000 \\[4pt]
+ 
+  F1, F3 &
+  Block port 21 at router &
+  iptables FORWARD DROP &
+  Anonymous FTP disabled on host \\[4pt]
+ 
+  F1, F3 &
+  Enable vsftpd verbose logging &
+  vsftpd.conf xferlog directives &
+  FTP service disabled or SFTP migrated \\[4pt]
+ 
+  F1, F3 &
+  Relocate confidential directory contents &
+  Filesystem --- mv command &
+  Access controls confirmed in place \\[4pt]
+ 
+  F2 &
+  Restrict HTTP to authorized hosts &
+  iptables FORWARD source filter &
+  TLS enforced on web application \\[4pt]
+ 
+  F2 &
+  Passive credential monitoring &
+  tcpdump on Kali management host &
+  TLS enforced on web application \\[4pt]
+ 
+  F4 &
+  Restrict RDP at router and host &
+  iptables + Windows Firewall rule &
+  TLS 1.0/1.1 disabled via registry \\[4pt]
+ 
+  F4 &
+  Enable RDP logon auditing &
+  Windows auditpol / Event Log &
+  Can remain as permanent monitoring \\[4pt]
+ 
+  F5 &
+  Block port 135 at router &
+  iptables FORWARD DROP &
+  Windows Firewall rule applied \\[4pt]
+ 
+  F5 &
+  Disable Print Spooler &
+  Windows service --- PowerShell &
+  Permanent --- no retirement needed \\[4pt]
+ 
+  \bottomrule
+\end{longtable}
+
+\section{Compliance Mapping}
+This section maps each finding and its remediation to the relevant HIPAA
+Security Rule Technical Safeguard standards under 45 CFR \S164.312. It then
+provides a Q3 audit readiness checklist organized by safeguard, and describes
+the documentation MedTech should collect and retain to demonstrate compliance
+progress to an auditor.
+ 
+\begin{notebox}
+\textbf{Scope note:} The HIPAA Security Rule Technical Safeguards apply to
+electronic protected health information (ePHI). MedTech's compliance
+obligation exists regardless of whether ePHI was confirmed in any specific
+directory or log at the time of this assessment. The presence of a system
+capable of storing or transmitting ePHI is sufficient to trigger the
+safeguard requirements. The Ubuntu EHR server and the Windows IIS server
+are both in scope.
+\end{notebox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{HIPAA Technical Safeguards Reference}
+ 
+The five Technical Safeguard standards under 45 CFR \S164.312 are summarized
+below for reference. Required implementation specifications are marked
+\textbf{(R)}; addressable specifications are marked \textbf{(A)}.
+ 
+\newpage
+ 
+\noindent
+\begin{longtable}{p{0.9cm} p{2.8cm} p{2.8cm} p{5.0cm}}
+  \rowcolor{headercol}
+  \color{white}\textbf{CFR} &
+  \color{white}\textbf{Standard} &
+  \color{white}\textbf{Spec.} &
+  \color{white}\textbf{Requirement} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \color{white}\textbf{CFR} &
+  \color{white}\textbf{Standard} &
+  \color{white}\textbf{Spec.} &
+  \color{white}\textbf{Requirement} \\
+  \endhead
+  \midrule
+ 
+  (a)(1) &
+  Access Control &
+  Unique User ID \textbf{(R)} &
+  Each user must have a unique name or number for identifying and tracking
+  identity. \\[4pt]
+ 
+  (a)(1) &
+  Access Control &
+  Automatic Logoff \textbf{(A)} &
+  Implement electronic procedures to terminate a session after a period of
+  inactivity. \\[4pt]
+ 
+  (a)(1) &
+  Access Control &
+  Encryption/Decryption \textbf{(A)} &
+  Implement a mechanism to encrypt and decrypt ePHI. \\[4pt]
+ 
+  (a)(2) &
+  Audit Controls &
+  \textit{(no sub-specs)} \textbf{(R)} &
+  Implement hardware, software, or procedural mechanisms to record and examine
+  activity in systems that contain ePHI. \\[4pt]
+ 
+  (b) &
+  Integrity &
+  Authentication Mechanism \textbf{(A)} &
+  Implement electronic mechanisms to corroborate that ePHI has not been
+  altered or destroyed in an unauthorized manner. \\[4pt]
+ 
+  (c) &
+  Person or Entity Authentication &
+  \textit{(no sub-specs)} \textbf{(R)} &
+  Implement procedures to verify that a person or entity seeking access to
+  ePHI is who they claim to be. \\[4pt]
+ 
+  (e)(1) &
+  Transmission Security &
+  Integrity Controls \textbf{(A)} &
+  Implement security measures to ensure that electronically transmitted ePHI
+  is not improperly modified without detection. \\[4pt]
+ 
+  (e)(1) &
+  Transmission Security &
+  Encryption \textbf{(A)} &
+  Implement a mechanism to encrypt ePHI in transit whenever deemed
+  appropriate. \\[4pt]
+ 
+  \bottomrule
+\end{longtable}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Finding-to-Safeguard Mapping}
+ 
+The table below maps each finding from the assessment to the HIPAA Technical
+Safeguard standard it implicates, with a brief rationale. Findings that
+implicate multiple standards are listed once per standard.
+ 
+\bigskip
+ 
+\noindent
+\begin{longtable}{>{\bfseries}p{0.8cm} p{3.6cm} p{4.5cm} p{3.8cm}}
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Finding} &
+  \color{white}\textbf{Safeguard} &
+  \color{white}\textbf{Rationale} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Finding} &
+  \color{white}\textbf{Safeguard} &
+  \color{white}\textbf{Rationale} \\
+  \endhead
+  \midrule
+ 
+  FW1--2 &
+  Default ACCEPT, unrestricted forwarding &
+  \hipbadge{acccol}{(a)(1) Access Control} &
+  No perimeter controls means no enforceable access restrictions on any
+  ePHI-hosting system. \\[4pt]
+ 
+  FW3--4 &
+  No stateful inspection; management services exposed &
+  \hipbadge{acccol}{(a)(1) Access Control} &
+  Absence of stateful tracking and unrestricted management access undermine
+  the ability to enforce unique user access controls at the network layer.
+  \\[4pt]
+ 
+  F1 &
+  Anonymous FTP --- confidential directory exposed &
+  \hipbadge{acccol}{(a)(1) Access Control} &
+  Anonymous access with no credentials is a direct violation of the unique
+  user ID requirement --- there is no identity to track. \\[4pt]
+ 
+  F1 &
+  Anonymous FTP --- confidential directory exposed &
+  \hipbadge{headercol}{(a)(2) Audit Controls} &
+  Anonymous sessions produce no user-attributable audit record, making
+  it impossible to determine who accessed the confidential directory or
+  what was downloaded. \\[4pt]
+ 
+  F2 &
+  Cleartext HTTP credential transmission &
+  \hipbadge{authcol}{(c) Authentication} &
+  Credentials transmitted in plaintext can be intercepted and replayed,
+  undermining the authentication mechanism entirely. \\[4pt]
+ 
+  F2 &
+  Cleartext HTTP credential transmission &
+  \hipbadge{transcol}{(e)(1) Transmission} &
+  Login credentials --- and any ePHI accessible post-login --- travel
+  over the network unencrypted and are subject to passive interception.
+  \\[4pt]
+ 
+  F3 &
+  FTP cleartext authentication &
+  \hipbadge{authcol}{(c) Authentication} &
+  FTP credentials transmitted in plaintext are subject to the same
+  interception risk as HTTP credentials, invalidating the authentication
+  mechanism for any user accessing the FTP service. \\[4pt]
+ 
+  F3 &
+  FTP cleartext authentication &
+  \hipbadge{transcol}{(e)(1) Transmission} &
+  Authenticated FTP sessions transmit both credentials and file contents
+  without encryption, exposing any ePHI transferred via FTP. \\[4pt]
+ 
+  F4 &
+  Deprecated TLS 1.0/1.1 on RDP &
+  \hipbadge{transcol}{(e)(1) Transmission} &
+  Deprecated TLS versions have known cryptographic weaknesses enabling
+  downgrade attacks, meaning the encryption protecting RDP sessions may
+  not be effective. \\[4pt]
+ 
+  F5 &
+  DCE/RPC endpoint enumeration &
+  \hipbadge{acccol}{(a)(1) Access Control} &
+  Exposing a map of internal services --- including the security authority
+  process --- directly facilitates targeted access control bypass attempts.
+  \\[4pt]
+ 
+  F6 &
+  Weak SSH MAC algorithms &
+  \hipbadge{transcol}{(e)(1) Transmission} &
+  64-bit MAC algorithms provide insufficient integrity assurance for
+  administrative sessions that may involve ePHI systems. \\[4pt]
+ 
+  \bottomrule
+\end{longtable}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Q3 Audit Readiness Checklist}
+ 
+The following checklists are organized by HIPAA Technical Safeguard standard.
+Each item represents a condition an OCR auditor would verify, framed as a
+yes/no question MedTech can use for self-assessment before Q3. Items marked
+\textbf{(R)} are required implementation specifications and carry no
+flexibility in interpretation; items marked \textbf{(A)} are addressable and
+require either implementation or documented justification for an alternative
+measure.
+ 
+\bigskip
+ 
+% ── Access Control ──────────────────────────────────────────────────────────
+\noindent\hipbadge{acccol}{(a)(1) Access Control}
+ 
+\begin{checklistbox}
+\begin{itemize}[leftmargin=1.5em, label=\cbox, itemsep=4pt]
+  \item \textbf{(R)} Has anonymous access been disabled on all services
+    running on ePHI-hosting systems? (FTP anonymous login removed on Ubuntu)
+  \item \textbf{(R)} Can every account that accesses ePHI systems be traced
+    to a unique, identified user? (No shared or anonymous accounts)
+  \item \textbf{(R)} Are access controls in place at the network perimeter
+    restricting which hosts can reach ePHI systems? (Firewall default DROP
+    policy and explicit allow rules implemented)
+  \item \textbf{(R)} Are management interfaces (SSH, Webmin) restricted to
+    authorized management hosts only and not exposed to the broader network?
+  \item \textbf{(A)} Is there a documented procedure for granting and
+    revoking access to ePHI systems, and has it been followed for all
+    current accounts?
+  \item \textbf{(A)} Are inactive or unnecessary accounts disabled on the
+    Ubuntu and Windows servers?
+\end{itemize}
+\end{checklistbox}
+ 
+\bigskip
+ 
+% ── Audit Controls ──────────────────────────────────────────────────────────
+\noindent\hipbadge{headercol}{(a)(2) Audit Controls}
+ 
+\begin{checklistbox}
+\begin{itemize}[leftmargin=1.5em, label=\cbox, itemsep=4pt]
+  \item \textbf{(R)} Are access logs enabled and actively collecting on the
+    Ubuntu EHR server? (vsftpd logs, Apache/application logs, auth logs in
+    \texttt{/var/log/})
+  \item \textbf{(R)} Are access logs enabled on the Windows server?
+    (Windows Event Log --- Security channel, IIS access logs)
+  \item \textbf{(R)} Are firewall logs collecting on the router?
+    (iptables LOG rules capturing unmatched traffic)
+  \item \textbf{(R)} Are logs being reviewed on a defined schedule rather
+    than only reactively? (Evidence of periodic review, even if informal)
+  \item \textbf{(R)} Is there a log retention policy in place? Logs must be
+    retained long enough to support breach investigation --- HHS guidance
+    suggests a minimum of six years for Security Rule documentation.
+  \item \textbf{(R)} If the confidential FTP directory was accessible prior
+    to remediation, has a log review been conducted to assess what was
+    accessed and by whom? (HIPAA breach assessment may be required)
+\end{itemize}
+\end{checklistbox}
+ 
+\bigskip
+ 
+% ── Integrity ───────────────────────────────────────────────────────────────
+\noindent\hipbadge{integcol}{(b) Integrity}
+ 
+\begin{checklistbox}
+\begin{itemize}[leftmargin=1.5em, label=\cbox, itemsep=4pt]
+  \item \textbf{(A)} Are file transfer services configured to prevent
+    unauthorized modification or deletion of ePHI? (FTP write permissions
+    reviewed; anonymous upload disabled)
+  \item \textbf{(A)} Is there a mechanism to detect whether files in the
+    EHR system have been altered or deleted without authorization?
+    (File integrity monitoring, even a scheduled hash check, satisfies this)
+  \item \textbf{(A)} Are backup procedures in place for the Ubuntu EHR
+    server that would allow recovery in the event of unauthorized
+    modification?
+\end{itemize}
+\end{checklistbox}
+ 
+\bigskip
+ 
+% ── Person or Entity Authentication ─────────────────────────────────────────
+\noindent\hipbadge{authcol}{(c) Person or Entity Authentication}
+ 
+\begin{checklistbox}
+\begin{itemize}[leftmargin=1.5em, label=\cbox, itemsep=4pt]
+  \item \textbf{(R)} Are all login pages and services that provide access
+    to ePHI systems transmitting credentials over encrypted channels?
+    (HTTPS enforced on web application; FTP credentials protected by
+    AUTH TLS or SFTP migration)
+  \item \textbf{(R)} Have default or vendor-supplied credentials been
+    changed on all systems? (Ubuntu, Windows, router, Webmin, MySQL,
+    vsftpd)
+  \item \textbf{(R)} Is there a password policy in place for accounts on
+    ePHI systems? (Minimum length, complexity, rotation schedule)
+  \item \textbf{(A)} Has multi-factor authentication been evaluated for
+    administrative access to the Ubuntu and Windows servers?
+\end{itemize}
+\end{checklistbox}
+ 
+\bigskip
+ 
+% ── Transmission Security ────────────────────────────────────────────────────
+\noindent\hipbadge{transcol}{(e)(1) Transmission Security}
+ 
+\begin{checklistbox}
+\begin{itemize}[leftmargin=1.5em, label=\cbox, itemsep=4pt]
+  \item \textbf{(A)} Is TLS enforced on the web application login page and
+    all pages that handle ePHI? (HTTPS with a valid certificate; HTTP
+    redirected to HTTPS)
+  \item \textbf{(A)} Has the Werkzeug development server been replaced with
+    a production WSGI server? (Werkzeug is not suitable for handling ePHI
+    in a production environment)
+  \item \textbf{(A)} Are FTP sessions encrypted in transit? (AUTH TLS
+    enforced in vsftpd, or FTP replaced with SFTP)
+  \item \textbf{(A)} Has support for deprecated TLS versions (1.0 and 1.1)
+    been disabled on the Windows RDP service?
+  \item \textbf{(A)} Have weak SSH MAC algorithms been removed from the
+    SSH configuration on both the Ubuntu and Windows servers?
+  \item \textbf{(A)} Is there a documented policy identifying which
+    transmission channels carry ePHI and confirming that each is
+    encrypted?
+\end{itemize}
+\end{checklistbox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Documentation for Compliance Demonstration}
+ 
+An auditor will not take MedTech's word that remediations were applied.
+Every completed item needs a corresponding artifact that can be produced on
+request. The following describes what to collect for each finding, using
+tools and outputs already available in MedTech's environment.
+ 
+\bigskip
+ 
+\noindent\textbf{Firewall Hardening (FW1--FW4)}
+ 
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+  \item A dated screenshot or terminal capture of
+    \texttt{iptables -L -n -v} showing default DROP policies and the
+    explicit allow rules, taken immediately after the change.
+  \item The contents of \texttt{/etc/iptables/rules.v4} showing the
+    persisted ruleset.
+  \item A dated nmap scan from the Kali machine showing the before and
+    after state of visible ports across the subnet. The D2 report already
+    contains the before scan; retain the after scan as the remediation
+    artifact.
+  \item A written record (even a dated text file) of who applied the
+    changes and when.
+\end{itemize}
+ 
+\bigskip
+ 
+\noindent\textbf{F1 --- Anonymous FTP}
+ 
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+  \item A dated screenshot of the vsftpd.conf file showing
+    \texttt{anonymous\_enable=NO}, or confirmation that the service was
+    disabled.
+  \item Terminal output of a failed anonymous login attempt post-remediation
+    (the \texttt{ftp-anon} nmap script output works well for this).
+  \item A written record of the confidential directory audit --- what files
+    were present, who reviewed them, and the outcome of the HIPAA breach
+    assessment. This is the most legally significant document in the entire
+    remediation record.
+\end{itemize}
+ 
+\bigskip
+ 
+\noindent\textbf{F2 --- Cleartext HTTP}
+ 
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+  \item A dated screenshot of the TLS certificate installed on the web
+    application (browser certificate viewer is sufficient).
+  \item Terminal output of \texttt{curl -I http://192.168.56.102/login}
+    showing a 301 redirect to HTTPS.
+  \item A Wireshark or tcpdump capture showing a login POST appearing as
+    TLS Application Data rather than readable form fields.
+\end{itemize}
+ 
+\bigskip
+ 
+\noindent\textbf{F3 --- FTP Cleartext Auth}
+ 
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+  \item If SFTP migration: terminal output of a successful SFTP login and
+    confirmation that port 21 is closed (\texttt{nmap -p 21} output).
+  \item If AUTH TLS: dated screenshot of the vsftpd.conf showing
+    \texttt{ssl\_enable=YES} and \texttt{force\_local\_logins\_ssl=YES};
+    terminal output of a plain FTP connection being rejected.
+\end{itemize}
+ 
+\bigskip
+ 
+\noindent\textbf{F4 --- Deprecated TLS on RDP}
+ 
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+  \item A dated screenshot of the registry keys under
+    \texttt{HKLM\textbackslash SYSTEM\textbackslash ...\textbackslash
+    SCHANNEL\textbackslash Protocols} showing TLS 1.0 and 1.1 disabled
+    and TLS 1.2 enabled.
+  \item Output of \texttt{nmap --script rdp-enum-encryption} post-reboot
+    showing TLS 1.0 and 1.1 absent from the negotiated protocols list.
+\end{itemize}
+ 
+\bigskip
+ 
+\noindent\textbf{F5 --- DCE/RPC Enumeration}
+ 
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+  \item Output of \texttt{nmap --script msrpc-enum} post-remediation
+    showing port 135 filtered or returning no service list.
+  \item PowerShell output of \texttt{Get-Service -Name Spooler} confirming
+    the Print Spooler is stopped and disabled, if that path was taken.
+\end{itemize}
+ 
+\bigskip
+ 
+\noindent\textbf{F6 --- Weak SSH MAC Algorithms}
+ 
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+  \item Dated copies of the updated \texttt{/etc/ssh/sshd\_config} on
+    Ubuntu and \texttt{C:\textbackslash ProgramData\textbackslash
+    ssh\textbackslash sshd\_config} on Windows showing the restricted
+    MACs directive.
+  \item Output of \texttt{nmap --script ssh2-enum-algos} on both hosts
+    confirming \texttt{umac-64} variants are absent from the advertised
+    algorithm list.
+\end{itemize}
+ 
+\bigskip
+ 
+\begin{warnbox}
+\textbf{Retention requirement:} Under the HIPAA Security Rule, documentation
+of policies, procedures, and actions taken must be retained for a minimum of
+six years from the date of creation or the date it was last in effect,
+whichever is later. All artifacts collected above should be stored in a
+location that is itself access-controlled and backed up. A folder on the
+Ubuntu server is not sufficient --- these records must survive the remediation
+of the system they document.
+\end{warnbox}
+
+\section{Resource Estimates}
+This section provides time and personnel estimates for every remediation item
+in this plan. Estimates cover the full scope of each work item: planning and
+preparation, the hands-on implementation window, post-change testing and
+verification, and documentation for the compliance record. All three phases
+are billable work and should be included in the budget.
+ 
+\begin{notebox}
+\textbf{Note for Marcus:} These estimates reflect what the work requires.
+Whether MedTech has the internal personnel to perform each item or needs to
+engage outside resources is a separate determination. The skills column
+describes what each role involves so that determination can be made against
+your current team. No procurement of new hardware or software is required
+for any item in this plan.
+\end{notebox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{How to Read These Estimates}
+ 
+Each remediation item is broken into three phases:
+ 
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+  \item \textbf{Planning:} Reviewing the change, coordinating the maintenance
+    window, confirming backout procedures, and notifying affected users.
+  \item \textbf{Implementation:} The hands-on change window --- applying
+    configuration changes, running commands, and performing the immediate
+    smoke test.
+  \item \textbf{Verification \& Documentation:} Running the post-change
+    verification steps from Section~2, collecting compliance artifacts per
+    Section~4, and filing the change record.
+\end{itemize}
+ 
+Time estimates are given in hours and represent a realistic middle estimate
+--- not the fastest possible execution under ideal conditions, and not a
+worst-case scenario. For items that require a scheduled maintenance window
+or system reboot, the window duration is noted separately from active working
+time.
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Personnel Skill Requirements}
+ 
+Three skill profiles cover all remediation work in this plan. A single
+person may hold more than one profile.
+ 
+\bigskip
+ 
+\noindent
+\begin{longtable}{p{2.8cm} p{8.8cm}}
+  \rowcolor{headercol}
+  \color{white}\textbf{Profile} &
+  \color{white}\textbf{What This Role Does in This Engagement} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \color{white}\textbf{Profile} &
+  \color{white}\textbf{What This Role Does in This Engagement} \\
+  \endhead
+  \midrule
+ 
+  \textbf{Linux Administrator} &
+  Edits configuration files on the Ubuntu server (\texttt{vsftpd.conf},
+  \texttt{sshd\_config}, application code), manages \texttt{systemd}
+  services, runs \texttt{iptables} commands on the router, installs
+  \texttt{iptables-persistent}, and implements TLS on the web application.
+  Must be comfortable working in a terminal and editing files as root. \\[6pt]
+ 
+  \textbf{Windows Administrator} &
+  Applies registry changes on the Windows server, manages Windows Firewall
+  rules via PowerShell, starts and stops Windows services, and reviews
+  Windows Event Log entries. Must be comfortable with elevated PowerShell
+  sessions and the Windows registry editor. \\[6pt]
+ 
+  \textbf{Change Coordinator} &
+  Schedules maintenance windows with affected teams, communicates planned
+  downtime, collects and files compliance documentation artifacts (screenshots,
+  terminal captures, configuration file copies), and maintains the change
+  record. Does not require deep technical skills but must understand the
+  scope of each change well enough to communicate it accurately. \\[6pt]
+ 
+  \bottomrule
+\end{longtable}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Immediate Window Estimates (0--7 Days)}
+ 
+The immediate window contains the highest-priority items and the largest
+concentration of work. The firewall hardening and the three Ubuntu-side
+findings can all be addressed in a single coordinated maintenance session,
+but they require two personnel working in parallel or sequentially across
+the router and the application server.
+ 
+\newpage
+ 
+\noindent
+\begin{longtable}{>{\bfseries}p{1.0cm} p{2.8cm} p{1.4cm} p{1.4cm} p{1.6cm} p{1.4cm} p{2.0cm}}
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Item} &
+  \color{white}\textbf{Planning} &
+  \color{white}\textbf{Implement} &
+  \color{white}\textbf{Verify \& Doc} &
+  \color{white}\textbf{Total} &
+  \color{white}\textbf{Personnel} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Item} &
+  \color{white}\textbf{Planning} &
+  \color{white}\textbf{Implement} &
+  \color{white}\textbf{Verify \& Doc} &
+  \color{white}\textbf{Total} &
+  \color{white}\textbf{Personnel} \\
+  \endhead
+  \midrule
+ 
+  FW1--4 &
+  Firewall hardening &
+  1.5 hrs &
+  2.0 hrs &
+  1.5 hrs &
+  \textbf{5.0 hrs} &
+  Linux Admin + Change Coordinator \\[4pt]
+ 
+  F1 &
+  Disable anonymous FTP; audit confidential directory &
+  1.0 hrs &
+  0.5 hrs &
+  1.0 hrs &
+  \textbf{2.5 hrs} &
+  Linux Admin + Change Coordinator \\[4pt]
+ 
+  F2 &
+  Enforce HTTPS on web application &
+  1.0 hrs &
+  1.5 hrs &
+  1.0 hrs &
+  \textbf{3.5 hrs} &
+  Linux Admin + Change Coordinator \\[4pt]
+ 
+  F3 &
+  Migrate FTP to SFTP or enforce AUTH TLS &
+  0.5 hrs &
+  1.0 hrs &
+  0.5 hrs &
+  \textbf{2.0 hrs} &
+  Linux Admin + Change Coordinator \\[4pt]
+ 
+  \rowcolor{totalrowcol}
+  \multicolumn{5}{l}{\textbf{Immediate window total}} &
+  \textbf{13.0 hrs} &
+  \\[2pt]
+ 
+  \bottomrule
+\end{longtable}
+ 
+\begin{impactbox}
+\textbf{Maintenance window note:} The firewall hardening (FW1--4) and the
+three Ubuntu-side items (F1, F2, F3) should be scheduled in the same
+maintenance window to minimize service disruptions. Plan for a window of
+approximately 4--5 hours of active work. Brief service interruptions
+(seconds to minutes) should be expected on FTP and the web application
+during this window. The confidential directory audit (F1 planning phase)
+should begin before the maintenance window is scheduled, as its outcome
+may trigger a HIPAA breach assessment that affects the overall timeline.
+\end{impactbox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Short-Term Window Estimates (8--30 Days)}
+ 
+Both short-term items are Windows-side changes. They can be addressed in a
+single maintenance window on the Windows server. F4 requires a reboot;
+budget for a planned outage of the Windows server during this window.
+ 
+\bigskip
+ 
+\noindent
+\begin{longtable}{>{\bfseries}p{1.0cm} p{2.8cm} p{1.4cm} p{1.4cm} p{1.6cm} p{1.4cm} p{2.0cm}}
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Item} &
+  \color{white}\textbf{Planning} &
+  \color{white}\textbf{Implement} &
+  \color{white}\textbf{Verify \& Doc} &
+  \color{white}\textbf{Total} &
+  \color{white}\textbf{Personnel} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Item} &
+  \color{white}\textbf{Planning} &
+  \color{white}\textbf{Implement} &
+  \color{white}\textbf{Verify \& Doc} &
+  \color{white}\textbf{Total} &
+  \color{white}\textbf{Personnel} \\
+  \endhead
+  \midrule
+ 
+  F4 &
+  Disable TLS 1.0/1.1 on RDP &
+  0.5 hrs &
+  0.5 hrs &
+  1.0 hrs &
+  \textbf{2.0 hrs} &
+  Windows Admin + Change Coordinator \\[4pt]
+ 
+  F5 &
+  Restrict RPC port 135; disable Print Spooler &
+  0.5 hrs &
+  0.5 hrs &
+  0.5 hrs &
+  \textbf{1.5 hrs} &
+  Windows Admin + Change Coordinator \\[4pt]
+ 
+  \rowcolor{totalrowcol}
+  \multicolumn{5}{l}{\textbf{Short-term window total}} &
+  \textbf{3.5 hrs} &
+  \\[2pt]
+ 
+  \bottomrule
+\end{longtable}
+ 
+\begin{impactbox}
+\textbf{Maintenance window note:} F4 requires a reboot of the Windows server
+to take effect. Schedule accordingly and notify users of the planned
+downtime. The reboot itself takes approximately 5--10 minutes and is not
+included in the active working time estimates above.
+\end{impactbox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Long-Term Window Estimates (31--90 Days)}
+ 
+The long-term item is the lowest-priority finding in the plan and can be
+addressed opportunistically during any scheduled maintenance cycle for
+either server. No downtime is required beyond a brief SSH service restart
+on each host.
+ 
+\bigskip
+ 
+\noindent
+\begin{longtable}{>{\bfseries}p{1.0cm} p{2.8cm} p{1.4cm} p{1.4cm} p{1.6cm} p{1.4cm} p{2.0cm}}
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Item} &
+  \color{white}\textbf{Planning} &
+  \color{white}\textbf{Implement} &
+  \color{white}\textbf{Verify \& Doc} &
+  \color{white}\textbf{Total} &
+  \color{white}\textbf{Personnel} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \color{white}\textbf{ID} &
+  \color{white}\textbf{Item} &
+  \color{white}\textbf{Planning} &
+  \color{white}\textbf{Implement} &
+  \color{white}\textbf{Verify \& Doc} &
+  \color{white}\textbf{Total} &
+  \color{white}\textbf{Personnel} \\
+  \endhead
+  \midrule
+ 
+  F6 &
+  Remove weak SSH MAC algorithms (both servers) &
+  0.5 hrs &
+  0.5 hrs &
+  0.5 hrs &
+  \textbf{1.5 hrs} &
+  Linux Admin + Windows Admin + Change Coordinator \\[4pt]
+ 
+  \rowcolor{totalrowcol}
+  \multicolumn{5}{l}{\textbf{Long-term window total}} &
+  \textbf{1.5 hrs} &
+  \\[2pt]
+ 
+  \bottomrule
+\end{longtable}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Werkzeug Follow-On Task}
+ 
+As noted in Section~2, replacing the Werkzeug development server with a
+production WSGI stack (nginx + gunicorn) is a required follow-on task that
+falls outside the immediate TLS enforcement fix. It is listed separately
+here because it is a more involved change than the other immediate-window
+items and should be scoped and scheduled as a distinct work item once the
+initial TLS enforcement is in place.
+ 
+\bigskip
+ 
+\noindent
+\begin{longtable}{p{3.6cm} p{1.4cm} p{1.4cm} p{1.6cm} p{1.4cm} p{2.6cm}}
+  \rowcolor{headercol}
+  \color{white}\textbf{Item} &
+  \color{white}\textbf{Planning} &
+  \color{white}\textbf{Implement} &
+  \color{white}\textbf{Verify \& Doc} &
+  \color{white}\textbf{Total} &
+  \color{white}\textbf{Personnel} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \color{white}\textbf{Item} &
+  \color{white}\textbf{Planning} &
+  \color{white}\textbf{Implement} &
+  \color{white}\textbf{Verify \& Doc} &
+  \color{white}\textbf{Total} &
+  \color{white}\textbf{Personnel} \\
+  \endhead
+  \midrule
+ 
+  Migrate from Werkzeug to nginx + gunicorn &
+  2.0 hrs &
+  3.0 hrs &
+  2.0 hrs &
+  \textbf{7.0 hrs} &
+  Linux Admin (with application knowledge) + Change Coordinator \\[4pt]
+ 
+  \bottomrule
+\end{longtable}
+ 
+\begin{warnbox}
+\textbf{Note on the Werkzeug task:} This item requires the Linux
+Administrator to have working knowledge of the application being served ---
+specifically how it is configured and what dependencies it has. If the
+person who originally deployed the Werkzeug application is not available,
+budget additional time for onboarding or application review before the
+migration begins. The 7-hour estimate assumes familiarity with the
+application.
+\end{warnbox}
+ 
+% ────────────────────────────────────────────────────────────────────────────
+\subsection{Full Engagement Summary}
+ 
+\bigskip
+ 
+\noindent
+\begin{longtable}{p{4.8cm} p{2.2cm} p{2.2cm} p{2.6cm}}
+  \rowcolor{headercol}
+  \color{white}\textbf{Window} &
+  \color{white}\textbf{Timeline} &
+  \color{white}\textbf{Total Hours} &
+  \color{white}\textbf{Personnel Required} \\
+  \endfirsthead
+  \rowcolor{headercol}
+  \color{white}\textbf{Window} &
+  \color{white}\textbf{Timeline} &
+  \color{white}\textbf{Total Hours} &
+  \color{white}\textbf{Personnel Required} \\
+  \endhead
+  \midrule
+ 
+  Immediate window (FW1--4, F1, F2, F3) &
+  0--7 days &
+  13.0 hrs &
+  Linux Admin, Change Coordinator \\[4pt]
+ 
+  Short-term window (F4, F5) &
+  8--30 days &
+  3.5 hrs &
+  Windows Admin, Change Coordinator \\[4pt]
+ 
+  Long-term window (F6) &
+  31--90 days &
+  1.5 hrs &
+  Linux Admin, Windows Admin, Change Coordinator \\[4pt]
+ 
+  Werkzeug follow-on &
+  Post-immediate &
+  7.0 hrs &
+  Linux Admin (app knowledge), Change Coordinator \\[4pt]
+ 
+  \rowcolor{totalrowcol}
+  \textbf{Total} & & \textbf{25.0 hrs} & \\[2pt]
+ 
+  \bottomrule
+\end{longtable}
+ 
+\bigskip
+ 
+\begin{notebox}
+\textbf{Summary for Marcus:} The full remediation engagement --- covering all
+findings across both servers, the router, and the Werkzeug follow-on ---
+represents approximately 25 hours of skilled technical work across three
+personnel profiles. The most time-sensitive portion is the immediate window
+at 13 hours, which should be scheduled within the next 7 days given the
+active data exposure risks identified in this assessment. The remaining
+12 hours can be distributed across the 30 and 90-day windows with minimal
+disruption to normal operations. No new hardware, software licenses, or
+infrastructure procurement is required for any item in this plan.
+\end{notebox}
+
+\vfill
+\textit{++report written and formatted with help from Claude (Sonnet 4.6)++}
+\end{document}
+
+% +++++++++ Helpful stuff +++++++++++
+%
+% +++ Using Minipages +++
+% \begin{minipage}[t]{\linewidth}
+% \includegraphics[width=0.50\textwidth]{*Image file}\\
+% \textit{*Image subtitle}
+% \end{minipage}
+% \end{enumerate}
+%
+
+
+% +++ Fixed width table +++
+%\begin{tabularx}{1.0\textwidth}{
+%	|| >{\raggedright\arraybackslash}X
+%	|  >{\raggedright\arraybackslash}X
+%	|  >{\raggedright\arraybackslash}X
+%	|  >{\raggedright\arraybackslash}X || }
+%	\hline
+%	\textbf{x} & \textbf{x} & \textbf{x} & \textbf{x} \\
+%	\hline \hline
+%	x $ x $ x & x & x & x  \\
+%	\hline
+%	x $ x $ x & x & x & x \\
+%	\hline
+%	x $ x $ x & x & x & x \\
+%	\hline
+%	x $ x $ x & x &  x  & x \\
+%	\hline
+%\end{tabularx}
+%
+
+% +++ For tables that take multiple pages +++
+%{\singlespacing
+%	\begin{longtable}{
+% 		|| >{\centering\arraybackslash}p{\colNum}
+%  		| >{\raggedright\arraybackslash}p{\colSmall}
+%  		| >{\raggedright\arraybackslash}p{\colSmall}
+%  		| >{\raggedright\arraybackslash}p{\colBig}
+%  		| >{\raggedright\arraybackslash}p{\colSmall} ||}
+%		\hline
+%		\textbf{x} & \textbf{x} & \textbf{x} & \textbf{x} & \textbf{x} \\
+%		\hline\hline
+%		\endhead
+%		\hline
+%  	    	 x & x & x & x  & x \\
+%		\hline
+%	\end{longtable}
+%}
+
+
+
+
+
+
+
+
+
+
+
+

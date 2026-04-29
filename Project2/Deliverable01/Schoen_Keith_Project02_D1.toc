@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {1}Executive Summary}{1}{}%
+\contentsline {subsection}{\numberline {1.1}Overall Security Posture: Medium}{1}{}%
+\contentsline {subsection}{\numberline {1.2}Top 5 risks requiring immediate attention}{1}{}%
+\contentsline {subsection}{\numberline {1.3}Key recommendations summary}{2}{}%
+\contentsline {subsection}{\numberline {1.4}HIPAA compliance implications}{3}{}%
+\contentsline {section}{\numberline {2}Network Topology Documentation}{4}{}%
+\contentsline {subsection}{\numberline {2.1}Asset Inventory}{4}{}%
+\contentsline {subsection}{\numberline {2.2}Open Ports and Services Per Host}{4}{}%
+\contentsline {section}{\numberline {3}Vulnerability Assessment}{5}{}%
+\contentsline {subsection}{\numberline {3.1}Medium Severity (CVSS 4.3-6.4)}{6}{}%
+\contentsline {subsection}{\numberline {3.2}Low Severity (CVSS 2.1-2.6)}{8}{}%
+\contentsline {section}{\numberline {4}Risk Prioritization}{9}{}%
+\contentsline {subsection}{\numberline {4.1}Prioritization}{10}{}%

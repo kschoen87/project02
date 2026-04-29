@@ -1,0 +1,32 @@
+\contentsline {section}{\numberline {1}Prioritized Remediation Roadmap}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Findings Ranked by Risk}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Remediation Order and Dependencies}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Timeframe Summary}{4}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Remediation Details}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Firewall Hardening (FW1--FW4)}{7}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}F1 --- Anonymous FTP Login}{11}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}F2 --- Cleartext HTTP Credential Transmission}{13}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}F3 --- FTP Cleartext Authentication}{16}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}F4 --- Deprecated TLS 1.0 and 1.1 on RDP}{19}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}F5 --- DCE/RPC Endpoint Enumeration}{21}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}F6 --- Weak SSH MAC Algorithms}{24}{subsection.2.7}%
+\contentsline {section}{\numberline {3}Compensating Controls}{26}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Firewall Gaps (FW1--FW4): Before Hardening Is Applied}{27}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}F1 and F3: Anonymous FTP and Cleartext FTP Auth}{29}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}F2: Cleartext HTTP Credential Transmission}{31}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}F4: Deprecated TLS on RDP}{33}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}F5: DCE/RPC Endpoint Enumeration}{35}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Summary of Compensating Controls}{36}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Compliance Mapping}{38}{section.4}%
+\contentsline {subsection}{\numberline {4.1}HIPAA Technical Safeguards Reference}{38}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Finding-to-Safeguard Mapping}{40}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Q3 Audit Readiness Checklist}{44}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Documentation for Compliance Demonstration}{47}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Resource Estimates}{50}{section.5}%
+\contentsline {subsection}{\numberline {5.1}How to Read These Estimates}{50}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Personnel Skill Requirements}{51}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Immediate Window Estimates (0--7 Days)}{52}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Short-Term Window Estimates (8--30 Days)}{54}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Long-Term Window Estimates (31--90 Days)}{55}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Werkzeug Follow-On Task}{56}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Full Engagement Summary}{56}{subsection.5.7}%
