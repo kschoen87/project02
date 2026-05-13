@@ -1,4 +1,4 @@
-In this project, your group will perform a comprehensive network security assessment of a simulated healthcare company’s infrastructure. Over approximately three weeks, you’ll produce three deliverables that build on each other:
+In this project, you will perform a comprehensive network security assessment of a simulated healthcare company’s infrastructure. Over approximately three weeks, you’ll produce three deliverables that build on each other:
 
 Deliverable 1 — Network Assessment Report: Scan the network, identify vulnerabilities, and present findings with risk prioritization.
 Deliverable 2 — Firewall Configuration: Redesign the network’s firewall rules to improve security while maintaining functionality.
